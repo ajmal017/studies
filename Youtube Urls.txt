@@ -9,3 +9,6 @@ http://blog.jenkster.com/2015/12/what-is-functional-programming.html
 
 4. Functional-light javascript
 https://github.com/getify/Functional-Light-JS
+
+5. So You Want to be a Functional Programmer?
+https://medium.com/@cscalfani/so-you-want-to-be-a-functional-programmer-part-1-1f15e387e536#.j86p4zvzs
