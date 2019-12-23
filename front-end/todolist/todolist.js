@@ -48,9 +48,9 @@ function sortList() {
 function processChk(isCheck, num) {
     var sendData = "";
     if (isCheck.checked === true) {
-        sendData = "processcheck.php?checked=t&num=" + num;
+        sendData = "checked=t&num=" + num;
     } else {
-        sendData = "processcheck.php?checked=f&num=" + num;
+        sendData = "checked=f&num=" + num;
     }
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -58,7 +58,7 @@ function processChk(isCheck, num) {
             loadList();
         }
     }
-    xhttp.open("GET", sendData, true);
+    xhttp.open("GET", "processchekck.php?" + sendData, true);
     xhttp.send(null);
 }
 
