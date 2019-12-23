@@ -1,13 +1,3 @@
-var btnNew = document.getElementById('btnAdd').onclick = function () {
-    addNewItem(document.getElementById('todolist'));
-};
-
-function addNewItem(list) {
-    var listItem = document.createElement('li');
-    listItem.innerText = "Hello";
-    list.appendChild(listItem);
-}
-
 function loadList() {
     var xhttp = new XMLHttpRequest();
     var todoList = document.getElementById('todolist');
