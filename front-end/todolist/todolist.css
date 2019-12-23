@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 ul {
     list-style-type: none;
     padding: 0;
@@ -33,7 +37,13 @@ input[type=checkbox] {
 }
 
 #main {
+    position: relative;
     text-align: center;
+}
+
+#newPTag {
+    position: absolute;
+    left: 450px;
 }
 
 #btnDelete {
@@ -42,8 +52,26 @@ input[type=checkbox] {
     right: 5px;
 }
 
-* {
-    box-sizing: border-box;
+#newItem {
+    width: 400px;
+    margin-right: 5px;
+}
+
+#notifyEmpty {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 100px;
+}
+
+#list-type-progress {
+    padding-left: 246px;
+    font-size: 28px;
+}
+
+#list-type-done {
+    padding-left: 278px;
+    font-size: 28px;
 }
 
 .done {
@@ -88,6 +116,3 @@ input[type=checkbox] {
     }
 }
 
-.list-type {
-    padding-left: 250px;
-}

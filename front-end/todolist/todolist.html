@@ -12,21 +12,21 @@
 <body>
     <div id="main">
         <h1>Welcome to To do List!</h1>
-        <button id="btnAdd">New Item</button>
-        <button onclick="test_sort()">test_sort</button>
+        <p id="newPTag">Add New Item: <input type="text" id="newItem"><button id="btnNewItem" onclick="addItem()">Add</button></p>
     </div>
+    <div id="notifyEmpty"></div>
 
     <div class="row">
         <div class="column">
             <div class="listdiv list-todo">
-                <h2 class="list-type">To do list</h2>
+                <h2 id="list-type-progress">In Progress</h2>
                 <ul id="todolist">
                 </ul>
             </div>
         </div>
         <div class="column">
             <div class="listdiv list-done">
-                <h2 class="list-type">Done list</h2>
+                <h2 id="list-type-done">Done!</h2>
                 <ul id="donelist">
                 </ul>
             </div>

@@ -20,14 +20,15 @@ function retrieveList()
     global $conn;
     $query = "SELECT * FROM todo";
     $result = $conn->query($query);
-    if(!$result) die("Error: " . $conn->error);
-    for($i = 1; $i <= $result->num_rows; ++$i) {
-        $row = $result->fetch_array(MYSQLI_NUM);
-        if($i == 1) echo "[";
-        print <<< _END
+    if ($result->num_rows > 0)
+        for ($i = 1; $i <= $result->num_rows; ++$i) {
+            $row = $result->fetch_array(MYSQLI_NUM);
+            if ($i == 1) echo "[";
+            print <<< _END
             {"content": "$row[1]", "done": "$row[2]"}
         _END;
-        if($i < $result->num_rows) echo ",";
-        else echo "]";
-    }
+            if ($i < $result->num_rows) echo ",";
+            else echo "]";
+        }
+    else echo "empty set";
 }

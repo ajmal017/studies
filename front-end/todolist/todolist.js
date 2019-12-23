@@ -7,13 +7,21 @@ function loadList() {
 
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            var json = JSON.parse(this.responseText);
-            for (var i = 0; i < json.length; ++i) {
-                if (json[i].done == "false") {
-                    todoContent += "<li class='undone'><input type='checkbox' name='" + (i + 1) + "' onclick='processChk(this, this.name)'><span>" + json[i].content + "</span><button id='btnDelete' name='" + (i + 1) + "' onclick='deleteItem(this.name)'>DELETE</button></li>"
-                } else {
-                    doneContent += "<li class='done'><input type='checkbox' name='" + (i + 1) + "' onclick='processChk(this, this.name)' checked><span>" + json[i].content + "</span></span><button id='btnDelete' name='" + (i + 1) + "' onclick='deleteItem(this.name)'>DELETE</button></li>"
+            if (this.responseText === "empty set") {
+                todoContent = "";
+                doneContent = "";
+                document.getElementById('notifyEmpty').innerHTML = "List does not exist!";
+            } else {
+                document.getElementById('notifyEmpty').innerHTML = "";
+                var json = JSON.parse(this.responseText);
+                for (var i = 0; i < json.length; ++i) {
+                    if (json[i].done == "false") {
+                        todoContent += "<li class='undone'><input type='checkbox' name='" + (i + 1) + "' onclick='processChkBtn(this, this.name)'><span>" + json[i].content + "</span><button id='btnDelete' name='" + (i + 1) + "' onclick='deleteItem(this.name)'>DELETE</button></li>"
+                    } else {
+                        doneContent += "<li class='done'><input type='checkbox' name='" + (i + 1) + "' onclick='processChkBtn(this, this.name)' checked><span>" + json[i].content + "</span></span><button id='btnDelete' name='" + (i + 1) + "' onclick='deleteItem(this.name)'>DELETE</button></li>"
+                    }
                 }
+
             }
             todoList.innerHTML = todoContent;
             doneList.innerHTML = doneContent;
@@ -23,19 +31,29 @@ function loadList() {
     xhttp.send(null);
 }
 
-
-function sortList() {
+function addItem() {
+    var newContent = document.getElementById('newItem');
+    var sendData = "content=" + newContent.value;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+            sortList();
             loadList();
+            newContent.value = "";
         }
     }
+    xhttp.open("POST", "add.php", true);
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhttp.send(sendData);
+}
+
+function sortList() {
+    var xhttp = new XMLHttpRequest();
     xhttp.open("GET", "sort.php", true);
     xhttp.send(null);
 }
 
-function processChk(isCheck, num) {
+function processChkBtn(isCheck, num) {
     var sendData = "";
     if (isCheck.checked === true) {
         sendData = "checked=t&num=" + num;
@@ -45,10 +63,11 @@ function processChk(isCheck, num) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+            sortList();
             loadList();
         }
     }
-    xhttp.open("GET", "processchekck.php?" + sendData, true);
+    xhttp.open("GET", "processcheck.php?" + sendData, true);
     xhttp.send(null);
 }
 
@@ -57,6 +76,7 @@ function deleteItem(num) {
     if (answer === false) return;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
+        sortList();
         loadList();
     }
     xhttp.open("GET", "delete.php?num=" + num, true);
