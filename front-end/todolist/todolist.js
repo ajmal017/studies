@@ -8,7 +8,7 @@ function addNewItem(list) {
     list.appendChild(listItem);
 }
 
-function loadLists() {
+function loadList() {
     var xhttp = new XMLHttpRequest();
     var todoList = document.getElementById('todolist');
     var doneList = document.getElementById('donelist');
@@ -38,7 +38,7 @@ function sortList() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            loadLists();
+            loadList();
         }
     }
     xhttp.open("GET", "sort.php", true);
@@ -55,7 +55,7 @@ function processChk(isCheck, num) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            loadLists();
+            loadList();
         }
     }
     xhttp.open("GET", sendData, true);
@@ -67,10 +67,10 @@ function deleteItem(num) {
     if (answer === false) return;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
-        loadLists();
+        loadList();
     }
     xhttp.open("GET", "delete.php?num=" + num, true);
     xhttp.send(null);
 }
 
-window.addEventListener('load', loadLists, false);
+window.addEventListener('load', loadList, false);
