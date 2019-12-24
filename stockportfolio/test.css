@@ -1,0 +1,33 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: 10px;
+    row-gap: 5px;
+}
+
+.color {
+    background-color: lightgoldenrodyellow;
+    border: 1px solid hotpink;
+    height: 300px;
+}
+
+@media screen and (max-width: 1000px) {
+    .wrapper {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .wrapper {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

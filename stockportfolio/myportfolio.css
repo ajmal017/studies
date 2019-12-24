@@ -1,0 +1,134 @@
+h1 {
+    text-align: center;
+}
+
+ul {
+    margin-top: 50px;
+    padding: 0;
+}
+
+ul li {
+    list-style-type: none;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+}
+
+input[type='text'],
+input[type='date'],
+input[type='number'] {
+    border: 1px solid rgb(247, 247, 247);
+}
+
+#main {
+    margin-top: 100px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: 15px;
+    row-gap: 30px;
+}
+
+#button-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#input-ticker, #input-price, #input-quantity, #input-date {
+    position: absolute;
+    right: 1%;
+    width: 150px;
+}
+
+#add-position {
+    position: absolute;
+    left: 47%;
+    top: 87%;
+    font-size: 24px;
+    color: #aaaaaa;
+}
+
+#add-position:hover,
+#add-position:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+#modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 500px;
+}
+
+#btn-close-modal {
+    color: #aaaaaa;
+    position: absolute;
+    top: 1.5%;
+    right: 3%;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+#btn-close-modal:hover,
+#btn-close-modal:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#span-type {
+    position: absolute;
+    right: 2%;
+}
+
+.color {
+    background-color: lightgoldenrodyellow;
+    border: 1px solid hotpink;
+    height: 300px;
+}
+
+.pos-relative {
+    position: relative;
+}
+
+@media screen and (max-width: 1000px) {
+    #main {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #main {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    #modal-content {
+        width: 400px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #main {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
