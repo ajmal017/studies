@@ -1,7 +1,7 @@
 <?php
 $conn;
 connectMySQL();
-CreateNewTable();
+addData();
 
 
 function connectMySQL()
@@ -16,10 +16,13 @@ function connectMySQL()
     if ($conn->connect_errno) die("Cannot Connect to MySQL: " . $conn->connect_error);
 }
 
-function CreateNewTable() {
+function addData() {
     global $conn;
-    $ticker = $_GET['ticker'];
-    $query = "CREATE TABLE $ticker(id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, price VARCHAR(16), quantity VARCHAR(16), date VARCHAR(10))";
+    $ticker = $_POST['ticker'];
+    $price = $_POST['price'];
+    $quantity = $_POST['quantity'];
+    $date = $_POST['date'];
+    $query = "INSERT INTO $ticker(price, quantity, date) VALUES('$price', '$quantity', '$date')";
     $result = $conn->query($query);
     if(!$result) die("Error: " . $conn->error);
 }

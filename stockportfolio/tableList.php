@@ -15,22 +15,21 @@ function connectMySQL()
     if ($conn->connect_errno) die("Cannot Connect to MySQL: " . $conn->connect_error);
 }
 
-function CmpTableList() {
+function CmpTableList()
+{
     global $conn;
     $ticker = $_GET['ticker'];
     $query = "SHOW tables";
     $result = $conn->query($query);
-    if ($result->num_rows > 0) {
-        for ($i = 0; $i < $result->num_rows; ++$i) {
-            $row = $result->fetch_array(MYSQLI_NUM);
-            if($ticker == $row[0]) return "true";
-        }
-        return "false";
+    for ($i = 0; $i < $result->num_rows; ++$i) {
+        $row = $result->fetch_array(MYSQLI_NUM);
+        if ($ticker == $row[0]) return "true";
     }
-    else return "empty";
+    return "false";
 }
 
-function GetExistResult() {
+function GetExistResult()
+{
     $retVal = CmpTableList();
     echo $retVal;
 }

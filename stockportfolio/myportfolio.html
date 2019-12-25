@@ -10,33 +10,25 @@
 </head>
 
 <body>
-    <input type="text" id="tickerInput">
-    <button id="btnGetPrice">show</button>
-    <div id="main"></div>
-    <h1>Stock Portfolio</h1>
-    <div id="button-div">
-        <button onclick="ShowEditModal(this)">Edit Position</button>
-    </div>
-    <div id="main">
-        <div class="color">One</div>
-        <div class="color">Two</div>
-        <div class="color">Three</div>
-        <div class="color">Four</div>
-        <div class="color">Five</div>
-        <div class="color">Six</div>
-        <div class="color">Seven</div>
-        <div class="color">Eight</div>
-        <div class="color">Nine</div>
-        <div class="color">Ten</div>
-        <div class="color">eleven</div>
-        <div class="color">twelve</div>
-    </div>
+    <header>
+        <h1>Stock Portfolio</h1>
+        <div id="button-div">
+            <button onclick="ShowEditModal(this)">Edit Position</button>
+        </div>
+    </header>
+    <article>
+        <section id="main">
+            
+        </section>
+    </article>
 
     <div id="modal">
         <div id="modal-content">
             <span id="btn-close-modal" onclick="CloseEditModal()">&times;</span>
             <ul>
-                <li class="pos-relative">Type: <span id="span-type"><input type="radio" name="type" value="buy" checked>Buy&#160;<input type="radio" name="type" value="sell">Sell</span id="span-type"></li>
+                <li class="pos-relative">Type: <span id="span-type"><input type="radio" name="type" value="buy"
+                            checked>Buy&#160;<input type="radio" name="type" value="sell">Sell</span id="span-type">
+                </li>
                 <li class="pos-relative">Ticker: <input id="input-ticker" type="text"></li>
                 <li class="pos-relative">Price Per Share: <input id="input-price" type="text"></li>
                 <li class="pos-relative">Quantity: <input id="input-quantity" type="number" min="1" step="1"></li>

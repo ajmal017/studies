@@ -26,6 +26,7 @@ input[type='number'] {
     grid-template-columns: repeat(6, 1fr);
     column-gap: 15px;
     row-gap: 30px;
+    justify-self: center;
 }
 
 #button-div {
@@ -34,7 +35,10 @@ input[type='number'] {
     justify-content: center;
 }
 
-#input-ticker, #input-price, #input-quantity, #input-date {
+#input-ticker,
+#input-price,
+#input-quantity,
+#input-date {
     position: absolute;
     right: 1%;
     width: 150px;
@@ -102,23 +106,39 @@ input[type='number'] {
     background-color: lightgoldenrodyellow;
     border: 1px solid hotpink;
     height: 300px;
+    width: 200px;
+    justify-self: center;
 }
 
 .pos-relative {
     position: relative;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1400px) {
+    #main {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media screen and (max-width: 1200px) {
     #main {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 945px) {
     #main {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width: 680px) {
+    #main {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     #modal-content {
@@ -126,9 +146,9 @@ input[type='number'] {
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 405px) {
     #main {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
     }
 }
