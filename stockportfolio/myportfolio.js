@@ -104,17 +104,22 @@ function ShowEditModal() {
 }
 
 function CloseEditModal() {
-    var ticker = document.getElementById('input-ticker').value = "";
-    var ppr = document.getElementById('input-price').value = "";
-    var qty = document.getElementById('input-quantity').value = "";
+    document.getElementById('input-ticker').value = "";
+    document.getElementById('input-price').value = "";
+    document.getElementById('input-quantity').value = "";
     var dateControl = document.querySelector('input[type="date"]');
     dateControl.value = getToday();
     modal.style.display = "none";
+    setTimeout(function () {
+        location.reload(true);
+    }, 100);
+
 }
 
 
 function ShowMyHoldings() {
     var mainDiv = document.getElementById('main');
+    mainDiv.innerHTML = "";
     var totalQty = 0;
     var totalPrice = 0;
     var arrTickerNames = [];
@@ -123,35 +128,34 @@ function ShowMyHoldings() {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            var json = JSON.parse(this.responseText);
-            for (var i = 0; i < json.length; ++i) {
-                for (var j = 0; j < json[i].transaction.length; ++j) {
-                    if (j == 0)
-                        arrTickerNames.push(json[i].name);
-                    totalPrice += json[i].transaction[j].price * json[i].transaction[j].quantity;
-                    totalQty += parseInt(json[i].transaction[j].quantity);
+            if (this.responseText === "null") {} else {
+                var json = JSON.parse(this.responseText);
+                for (var i = 0; i < json.length; ++i) {
+                    for (var j = 0; j < json[i].transaction.length; ++j) {
+                        if (j == 0)
+                            arrTickerNames.push(json[i].name);
+                        totalPrice += json[i].transaction[j].price * json[i].transaction[j].quantity;
+                        totalQty += parseInt(json[i].transaction[j].quantity);
+                    }
+                    arrAvgPrices.push(Math.round(totalPrice / totalQty * 1000) / 1000); // rounding in third place
+                    arrTotalQtys.push(totalQty);
+                    totalPrice = 0;
+                    totalQty = 0;
                 }
-                arrAvgPrices.push(Math.round(totalPrice / totalQty * 1000) / 1000); // rounding in third place
-                arrTotalQtys.push(totalQty);
-                totalPrice = 0;
-                totalQty = 0;
-            }
-            for (var i = 0; i < json.length; ++i) {
-                var holdingsDiv = document.createElement("div");
-                holdingsDiv.setAttribute('id', 'holding-' + (i + 1));
-                holdingsDiv.setAttribute('class', 'color');
-                holdingsDiv.innerHTML = "<ul><li>" + arrTickerNames[i].toUpperCase() + "</li><li id='avg-price-" + arrTickerNames[i] + "'>Avg. Price: " + arrAvgPrices[i] + "</li><li id='total-qty-" + arrTickerNames[i] + "'>Total Quantity: " + arrTotalQtys[i] + "</li></ul><div id='real-time-price-" + arrTickerNames[i] + "'></div><div id='today-gain-" + arrTickerNames[i] + "'></div><div id='total-gain-" + arrTickerNames[i] + "'></div>";
-                mainDiv.appendChild(holdingsDiv);
-            }
-            for (var i = 0; i < json.length; ++i) {
-                var holdingsDiv = document.getElementById('holding-' + (i + 1));
-                setInterval(GetRealTimePrice, 2000, arrTickerNames[i], holdingsDiv, arrTotalQtys[i]);
-                // setInterval(CalcTodayGain, 2000, arrTickerNames[i]);
-                // setTimeout(CalcTodayGain, 2500, arrTickerNames[i]);
-                // setTimeout(function run(ticker, jsonLen) {
-                //     CalcTodayGain(ticker, jsonLen);
-                //     setTimeout(run, 1000, ticker, jsonLen);
-                // }, 5000, arrTickerNames[i], json.length);
+                for (var i = 0; i < json.length; ++i) {
+                    var holdingsDiv = document.createElement("div");
+                    holdingsDiv.setAttribute('id', 'holding-' + (i + 1));
+                    holdingsDiv.setAttribute('class', 'color');
+                    holdingsDiv.innerHTML = "<ul><li>" + arrTickerNames[i].toUpperCase() + "</li><li id='avg-price-" + arrTickerNames[i] + "'>Avg. Price: " + arrAvgPrices[i] + "</li><li id='total-qty-" + arrTickerNames[i] + "'>Total Quantity: " + arrTotalQtys[i] + "</li></ul><div id='real-time-price-" + arrTickerNames[i] + "'></div><div id='today-gain-" + arrTickerNames[i] + "'></div><div id='total-gain-" + arrTickerNames[i] + "'></div>";
+                    mainDiv.appendChild(holdingsDiv);
+                }
+                for (var i = 0; i < json.length; ++i) {
+                    var holdingsDiv = document.getElementById('holding-' + (i + 1));
+                    setTimeout(function run(ticker, div, qty) {
+                        GetRealTimePrice(ticker, div, qty);
+                        setTimeout(run, 3500, ticker, div, qty);
+                    }, 1, arrTickerNames[i], holdingsDiv, arrTotalQtys[i]);
+                }
             }
         }
     }
@@ -183,7 +187,7 @@ function ShowTodayGain(realTimePrice, ticker, holdingsDiv, totalQty) {
             var previousPrice = JSON.parse(this.responseText).historical[0].open;
             var outputDiv = document.getElementById("today-gain-" + ticker);
             var todayGain = Math.round((realTimePrice - previousPrice) * 1000) / 1000;
-            var totalTodayGain = todayGain * totalQty;
+            var totalTodayGain = Math.round((realTimePrice - previousPrice) * totalQty * 1000) / 1000;
             outputDiv.innerHTML = todayGain + " " + totalTodayGain;
             if (selectGain === "today") {
                 ColoringTodayGain(todayGain, holdingsDiv);
