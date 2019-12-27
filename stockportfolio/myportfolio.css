@@ -103,8 +103,7 @@ input[type='number'] {
 }
 
 .color {
-    background-color: lightgoldenrodyellow;
-    border: 1px solid hotpink;
+    border: 1px solid black;
     height: 300px;
     width: 200px;
     justify-self: center;

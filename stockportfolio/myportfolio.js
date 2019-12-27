@@ -83,16 +83,15 @@ function ProcessRemovePosition(ticker, price, quantity, date) {
     xhttp.send(null);
 }
 
-// var btn = document.getElementById('btnGetPrice');
-// btn.addEventListener('click', function () {
-//     var tickerInput = document.getElementById('tickerInput').value;
-//     getPrice(tickerInput);
-// }, false);
-
-
 function getToday() {
     var today = new Date();
     return today.toISOString().substring(0, 10);
+}
+
+function GetYesterday() {
+    var yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    return yesterday.toISOString().substring(0, 10);
 }
 
 
@@ -132,7 +131,7 @@ function ShowMyHoldings() {
                     totalPrice += json[i].transaction[j].price * json[i].transaction[j].quantity;
                     totalQty += parseInt(json[i].transaction[j].quantity);
                 }
-                arrAvgPrices.push(Math.round(totalPrice / totalQty * 100) / 100); // rounding in third place
+                arrAvgPrices.push(Math.round(totalPrice / totalQty * 1000) / 1000); // rounding in third place
                 arrTotalQtys.push(totalQty);
                 totalPrice = 0;
                 totalQty = 0;
@@ -141,12 +140,18 @@ function ShowMyHoldings() {
                 var holdingsDiv = document.createElement("div");
                 holdingsDiv.setAttribute('id', 'holding-' + (i + 1));
                 holdingsDiv.setAttribute('class', 'color');
-                holdingsDiv.innerHTML = "<ul><li>" + arrTickerNames[i].toUpperCase() + "</li><li>Avg. Price: " + arrAvgPrices[i] + "</li><li>Total Quantity: " + arrTotalQtys[i] + "</li></ul><div id='real-time-price-" + arrTickerNames[i] + "'></div>";
+                holdingsDiv.innerHTML = "<ul><li>" + arrTickerNames[i].toUpperCase() + "</li><li id='avg-price-" + arrTickerNames[i] + "'>Avg. Price: " + arrAvgPrices[i] + "</li><li id='total-qty-" + arrTickerNames[i] + "'>Total Quantity: " + arrTotalQtys[i] + "</li></ul><div id='real-time-price-" + arrTickerNames[i] + "'></div><div id='today-gain-" + arrTickerNames[i] + "'></div><div id='total-gain-" + arrTickerNames[i] + "'></div>";
                 mainDiv.appendChild(holdingsDiv);
             }
             for (var i = 0; i < json.length; ++i) {
                 var holdingsDiv = document.getElementById('holding-' + (i + 1));
-                setInterval(GetRealTimePrice, 1000, arrTickerNames[i]);
+                setInterval(GetRealTimePrice, 2000, arrTickerNames[i], holdingsDiv, arrTotalQtys[i]);
+                // setInterval(CalcTodayGain, 2000, arrTickerNames[i]);
+                // setTimeout(CalcTodayGain, 2500, arrTickerNames[i]);
+                // setTimeout(function run(ticker, jsonLen) {
+                //     CalcTodayGain(ticker, jsonLen);
+                //     setTimeout(run, 1000, ticker, jsonLen);
+                // }, 5000, arrTickerNames[i], json.length);
             }
         }
     }
@@ -154,17 +159,78 @@ function ShowMyHoldings() {
     xhr.send(null);
 }
 
-function GetRealTimePrice(ticker) {
+function GetRealTimePrice(ticker, holdingsDiv, totalQty) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var priceDiv = document.getElementById("real-time-price-" + ticker);
             priceDiv.innerHTML = JSON.parse(this.responseText).price;
+            ShowTodayGain(JSON.parse(this.responseText).price, ticker, holdingsDiv, totalQty);
+            ShowTotalGain(JSON.parse(this.responseText).price, ticker, holdingsDiv, totalQty);
         }
     }
     xhr.open("GET", "https://financialmodelingprep.com/api/v3/stock/real-time-price/" + ticker, true);
     xhr.send(null);
 
+}
+
+function ShowTodayGain(realTimePrice, ticker, holdingsDiv, totalQty) {
+    var yesterday = GetYesterday();
+    var selectGain = document.getElementsByTagName('select')[0].value;
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var previousPrice = JSON.parse(this.responseText).historical[0].open;
+            var outputDiv = document.getElementById("today-gain-" + ticker);
+            var todayGain = Math.round((realTimePrice - previousPrice) * 1000) / 1000;
+            var totalTodayGain = todayGain * totalQty;
+            outputDiv.innerHTML = todayGain + " " + totalTodayGain;
+            if (selectGain === "today") {
+                ColoringTodayGain(todayGain, holdingsDiv);
+            }
+        }
+    }
+    xhr.open("GET", "https://financialmodelingprep.com/api/v3/historical-price-full/" + ticker + "?from=" + yesterday + "&to=" + yesterday, true);
+    xhr.send(null);
+}
+
+function ShowTotalGain(realTimePrice, ticker, holdingsDiv, totalQty) {
+    var selectGain = document.getElementsByTagName('select')[0].value;
+    var extractFloat = /[+-]?\d+(\.\d+)?/g;
+    var avgPrice = parseFloat(document.getElementById("avg-price-" + ticker).firstChild.nodeValue.match(extractFloat)[0]);
+    var totalGain = Math.round((realTimePrice - avgPrice) * totalQty * 1000) / 1000;
+    var outputDiv = document.getElementById("total-gain-" + ticker);
+    outputDiv.innerHTML = totalGain;
+    if (selectGain === "total") {
+        ColoringTotalGain(totalGain, holdingsDiv);
+    }
+
+}
+
+function ColoringTodayGain(todayGain, holdingsDiv) {
+    if (todayGain > 0) {
+        holdingsDiv.style.backgroundColor = "#00cc66";
+        holdingsDiv.style.border = "1px solid #006633";
+    } else if (todayGain < 0) {
+        holdingsDiv.style.backgroundColor = "#ff4d4d";
+        holdingsDiv.style.border = "1px solid #cc0000";
+    } else {
+        holdingsDiv.style.backgroundColor = "lightgray";
+        holdingsDiv.style.border = "1px solid gray";
+    }
+}
+
+function ColoringTotalGain(totalGain, holdingsDiv) {
+    if (totalGain > 0) {
+        holdingsDiv.style.backgroundColor = "#00cc66";
+        holdingsDiv.style.border = "1px solid #006633";
+    } else if (totalGain < 0) {
+        holdingsDiv.style.backgroundColor = "#ff4d4d";
+        holdingsDiv.style.border = "1px solid #cc0000";
+    } else {
+        holdingsDiv.style.backgroundColor = "lightgray";
+        holdingsDiv.style.border = "1px solid gray";
+    }
 }
 
 window.addEventListener('load', ShowMyHoldings, false);
