@@ -1,0 +1,197 @@
+body {
+    background-color: #343A40;
+    display: grid;
+    grid-template-columns: repeat(40, 1fr);
+    font-family: 'Rubik', sans-serif;
+}
+
+#div-main {
+    margin-top: 50px;
+    display: grid;
+    grid-column: 14 / span 14;
+    grid-template-rows: auto;
+}
+
+#div-notify-wrong {
+    display: grid;
+    grid-template-columns: repeat(18, 1fr);
+    grid-template-rows: 3rem;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#div-notify-wrong span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-column: 1 / 19;
+    grid-row: 1;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+    border-radius: 3px;
+    font-size: 24px;
+}
+
+#div-calc {
+    display: grid;
+    background-color: #fff;
+    border-radius: 5px;
+    grid-template-columns: repeat(18, 1fr);
+    grid-template-rows: 1fr repeat(4, 0.48fr);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#div-calc h1 {
+    display: grid;
+    grid-column: 2 / span 16;
+    grid-row: 1;
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+#div-calc>span:nth-child(2) {
+    display: grid;
+    grid-column: 2 / span 16;
+    grid-row: 2;
+    margin-bottom: 15px;
+}
+
+#div-calc>span:nth-child(3) {
+    display: grid;
+    grid-column: 2 / span 16;
+    grid-row: 3;
+    margin-bottom: 15px;
+}
+
+#div-calc>span:nth-child(4) {
+    display: grid;
+    grid-column: 2 / span 16;
+    grid-row: 4;
+    margin-bottom: 15px;
+}
+
+#div-calc>span:nth-child(5) {
+    display: grid;
+    grid-column: 2 / span 16;
+    grid-row: 5;
+    margin-bottom: 15px;
+}
+
+#div-result {
+    display: none;
+    background-color: #fff;
+    border-radius: 5px;
+    grid-template-columns: repeat(18, 1fr);
+    grid-template-rows: 1fr repeat(3, 0.7fr);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+#div-result h2 {
+    display: grid;
+    grid-column: 2 / span 16;
+    grid-row: 1;
+    text-align: center;
+    font-size: 1.4rem;
+    margin-top: 40px;
+    margin-bottom: 7px;
+}
+
+#div-loading {
+    display: none;
+    background-color: #fff;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    text-align: center;
+}
+
+#div-result>span:nth-child(2) {
+    display: grid;
+    grid-column: 2 / span 16;
+    grid-row: 2;
+    margin-bottom: 15px;
+}
+
+#div-result>span:nth-child(3) {
+    display: grid;
+    grid-column: 2 / span 16;
+    grid-row: 3;
+    margin-bottom: 15px;
+}
+
+#div-result>span:nth-child(4) {
+    display: grid;
+    grid-column: 2 / span 16;
+    grid-row: 4;
+    margin-bottom: 15px;
+}
+
+#input-amount,
+#input-interest,
+#input-yrs-to-repay {
+    display: grid;
+    grid-column: 2 / span 15;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    padding: 0 15px;
+    font-family: 'Rubik', sans-serif;
+}
+
+
+#btn-calculate {
+    background-color: #343A40;
+    border-color: #343A40;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: .25rem;
+    padding: .50rem .75rem;
+    border: 1px solid transparent;
+    font-family: 'Rubik', sans-serif;
+}
+
+#input-monthly-payment,
+#input-total-payment,
+#input-total-interest {
+    display: grid;
+    grid-column: 2 / span 15;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #e9ecef;
+    background-clip: padding-box;
+    padding: 0 15px;
+    font-family: 'Rubik', sans-serif;
+}
+
+.span-input-addon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    grid-column: 1;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-right: 0;
+    border-radius: .25rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
