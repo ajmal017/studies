@@ -1,0 +1,99 @@
+body {
+    background-color: rgb(0, 36, 34);
+    font-family: 'Overpass', sans-serif;
+    display: grid;
+    grid-template-columns: repeat(20, 1.5fr);
+}
+
+#div-main {
+    display: grid;
+    grid-column: 7 / span 8;
+    background-color: rgb(252, 236, 207);
+    grid-template-columns: repeat(20, 1fr);
+    row-gap: 20px;
+    border-radius: 5px;
+}
+
+#div-main h1 {
+    display: grid;
+    grid-column: 4 / span 14;
+    text-align: center;
+    color: rgb(5, 49, 192);
+}
+
+#div-content {
+    display: grid;
+    grid-column: 2 / span 18;
+    grid-row: 2;
+    padding-bottom: 20px;
+    border-top: 1px solid #8f8f8f;
+    border-bottom: 1px solid #8f8f8f;
+}
+
+#div-content h2 {
+    margin-bottom: 0;
+}
+
+#div-content p {
+    margin-top: 5px;
+}
+
+form {
+    display: flex;
+}
+
+#input-guess {
+    border: 1px solid #b9b9b9;
+    border-radius: 5px;
+    outline: none;
+    font-size: 20px;
+    width: 50%;
+    background-color: #b9b9b9;
+}
+
+#btn-guess {
+    border: none;
+    text-align: center;
+    font-size: 16px;
+    font-family: 'Overpass', sans-serif;
+    color: #fff;
+    padding: 6px 14px;
+    margin-left: 5px;
+    background-color: rgb(0, 136, 118);
+    transition: all 0.2s ease;
+}
+
+#btn-guess:hover {
+    background-color: rgb(0, 194, 168);
+}
+
+#div-guesses-record {
+    display: grid;
+    margin-top: 10px;
+    grid-column: 2 / span 12;
+    grid-row: 3;
+    font-size: 22px;
+    background-color: rgb(252, 236, 207);
+}
+
+#div-remaining-guesses {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    grid-column: 15 / span 4;
+    grid-row: 3;
+    font-size: 22px;
+}
+
+#div-result {
+    display: grid;
+    grid-row: 4;
+    grid-column: 2 / span 18;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    padding-top: 3px;
+}
