@@ -1,0 +1,267 @@
+body {
+    display: grid;
+    background-color: rgb(226, 226, 226);
+    grid-template-columns: repeat(30, 1fr);
+    row-gap: 35px;
+    font-family: 'Nunito', sans-serif;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#div-show-msg {
+    grid-row: 1;
+    grid-column: 4 / span 6;
+}
+
+#div-main {
+    display: grid;
+    background-color: rgb(255, 255, 236);
+    padding-bottom: 20px;
+    border-radius: 7px;
+    grid-column: 4 / span 24;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+#div-main h1 {
+    grid-column: 1 / span 12;
+    grid-row: 2;
+    text-align: center;
+    margin-bottom: 70px;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+#div-main form {
+    display: grid;
+    grid-row: 3;
+    grid-column: 1 / span 12;
+    grid-template-columns: repeat(10, 1fr);
+    row-gap: 40px;
+}
+
+#div-input-title {
+    grid-row: 1;
+    grid-column: 3 / span 6;
+}
+
+#div-input-author {
+    grid-row: 2;
+    grid-column: 3 / span 6;
+}
+
+#div-input-category {
+    grid-row: 3;
+    grid-column: 3 / span 6;
+}
+
+#div-input-isbn {
+    grid-row: 4;
+    grid-column: 3 / span 6;
+}
+
+#div-main form button {
+    grid-row: 5;
+    grid-column: 3 / span 6;
+}
+
+#input-title,
+#input-author,
+#input-category,
+#input-isbn {
+    border: none;
+    outline: none;
+    font-size: 20px;
+    width: 100%;
+    background-color: rgb(255, 255, 236);
+}
+
+#input-title+label,
+#input-author+label,
+#input-category+label,
+#input-isbn+label {
+    display: block;
+    position: relative;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0;
+    border-top: 2px solid #a8a8a8;
+    height: 0;
+    transition: all 0.4s ease;
+}
+
+#input-title:focus+label,
+#input-author:focus+label,
+#input-category:focus+label,
+#input-isbn:focus+label {
+    border-top: 2px solid rgb(248, 110, 95);
+}
+
+#input-title:valid+label>span,
+#input-title:valid:focus+label>span,
+#input-author:valid+label>span,
+#input-author:valid:focus+label>span,
+#input-category:valid+label>span,
+#input-category:valid:focus+label>span,
+#input-isbn:valid+label>span,
+#input-isbn:valid:focus+label>span {
+    font-size: 16px;
+    color: rgb(248, 110, 95);
+    left: -1px;
+    top: -48px;
+}
+
+#input-title+label>span,
+#input-author+label>span,
+#input-category+label>span,
+#input-isbn+label>span {
+    position: absolute;
+    margin: 0;
+    font-size: 18px;
+    color: #a8a8a8;
+    left: 2px;
+    top: -23px;
+    transition: all 0.3s ease;
+}
+
+#btn-submit {
+    background-color: rgb(250, 145, 104);
+    border: none;
+    border-radius: 4px;
+    font-size: 20px;
+    color: rgb(252, 241, 241);
+    padding: 10px 30px;
+    transition: all 0.25s ease;
+}
+
+#btn-submit:hover {
+    background-color: rgb(250, 115, 62);
+}
+
+#div-list,
+#div-list ul,
+#div-list ul li {
+    grid-template-columns: repeat(30, 1fr);
+}
+
+#div-list {
+    display: grid;
+    grid-row: 2;
+    background-color: rgb(255, 255, 236);
+    border-radius: 7px;
+    grid-column: 4 / span 24;
+}
+
+#div-list ul {
+    display: grid;
+    margin-top: 12px;
+    text-align: center;
+    grid-column: 1 / span 30;
+}
+
+#div-list ul li {
+    display: grid;
+    margin-right: 2px;
+    margin-bottom: 10px;
+    grid-column: 1 / span 30;
+}
+
+#list-title,
+#list-author,
+#list-category,
+#list-isbn {
+    text-align: center;
+    margin-right: 6px;
+    border-right: 1px solid #b1b1b1;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.list-item-title,
+.list-item-author,
+.list-item-category,
+.list-item-isbn,
+.list-item-edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #b1b1b1;
+    padding-bottom: 6px;
+    margin-right: 6px;
+}
+
+#list-title,
+.list-item-title {
+    grid-column: 1 / span 10;
+}
+
+#list-author,
+.list-item-author {
+    grid-column: 11 / span 7;
+}
+
+#list-category,
+.list-item-category {
+    grid-column: 18 / span 7;
+}
+
+#list-isbn,
+.list-item-isbn {
+    grid-column: 25 / span 4;
+}
+
+.list-item-edit {
+    grid-column: 29 / span 1;
+    padding: 0;
+    color: black;
+}
+
+.fa-edit:hover {
+    color: gray;
+}
+
+.list-item-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-column: 30 / span 1;
+    border-bottom: 1px solid #b1b1b1;
+    color: rgb(248, 42, 42);
+    font-size: 18px;
+}
+
+.fa-times:hover {
+    color: rgb(187, 29, 61);
+}
+
+
+
+.success-msg {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    margin-bottom: 0;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 20px;
+}
+
+.fail-msg {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    margin-bottom: 0;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 20px;
+}
+
+.notify-empty {
+    grid-column: 1 / span 30;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: rgb(50, 50, 250);
+}

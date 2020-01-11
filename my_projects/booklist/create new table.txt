@@ -1,0 +1,5 @@
+CREATE TABLE booklist(
+    title VARCHAR(1024),
+   author VARCHAR(256),
+    category VARCHAR(256),
+    isbn VARCHAR(32) PRIMARY KEY);
