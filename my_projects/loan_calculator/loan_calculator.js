@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', loadEventListeners);
 const calculateBtn = document.getElementById('btn-calculate');
-let timeouts = [];
+const timeouts = [];
 
 function loadEventListeners() {
     calculateBtn.addEventListener('click', function () {

@@ -1,20 +1,21 @@
+"use strict";
 window.addEventListener('DOMContentLoaded', addEventListeners);
-let min = 1,
-    max = 100,
-    winningNum = Math.floor(Math.random() * max) + min,
-    guessesLeft = 6,
-    totalGuesses = 6,
-    yourGuesses = [],
-    recordContent = 'Your Guesses: ';
+const min = 1;
+const max = 100;
+const totalGuesses = 6;
+let winningNum = Math.floor(Math.random() * max) + min;
+let yourGuesses = [];
+let recordContent = 'Your Guesses: ';
+let guessesLeft = 6;
 
-const minNum = document.querySelector('.min-num'),
-    maxNum = document.querySelector('.max-num'),
-    guessForm = document.getElementById('guess-form'),
-    guessInput = document.getElementById('input-guess'),
-    showPreviousGuesses = document.getElementById('div-guesses-record'),
-    showResultDiv = document.getElementById('div-result'),
-    remainingGuesses = document.getElementById('div-remaining-guesses'),
-    guessBtn = document.getElementById('btn-guess');
+const minNum = document.querySelector('.min-num');
+const maxNum = document.querySelector('.max-num');
+const guessForm = document.getElementById('guess-form');
+const guessInput = document.getElementById('input-guess');
+const showPreviousGuesses = document.getElementById('div-guesses-record');
+const showResultDiv = document.getElementById('div-result');
+const remainingGuesses = document.getElementById('div-remaining-guesses');
+const guessBtn = document.getElementById('btn-guess');
 
 minNum.textContent = min;
 maxNum.textContent = max;
@@ -30,7 +31,7 @@ function addEventListeners() {
 
 function compareNumInput(e) {
     if (e.target.childNodes[3].textContent === 'GUESS') {
-        guessValue = guessInput.value;
+        let guessValue = guessInput.value;
         yourGuesses.push(guessValue);
         --guessesLeft;
         showLeftGuesses();
