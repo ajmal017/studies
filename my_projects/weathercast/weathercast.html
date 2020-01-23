@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style/css/weathercast.css">
+  <link rel="stylesheet" href="style/css/weather-icons.min.css">
+  <link rel="stylesheet" href="style/css/weather-icons-wind.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+  <title>WeatherCast</title>
+</head>
+
+<body>
+  <header>
+    <nav><i class="wi wi-sunrise"></i>WeatherCast</nav>
+  </header>
+  <article>
+    <section id="add-cities">
+      <div class="titles">
+        <span class="title">Explore the weather</span><span class="subtitle"> all around the world</span>
+      </div>
+      <div class="city-input">
+        <div class="input-box">
+          <input type="text" placeholder="Your country, city or location...">
+          <div class="search-icon"><i class="fas fa-search"></i></div>
+        </div>
+      </div>
+    </section>
+    <section id="show-cities"></section>
+  </article>
+  <script src="js/weather.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

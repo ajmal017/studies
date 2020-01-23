@@ -1,0 +1,112 @@
+body {
+  display: grid;
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+}
+
+header {
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  background-color: rgb(67, 161, 255);
+  font-weight: bold;
+  font-size: 2rem;
+  color: white;
+  padding: 10px;
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: 2 / span 2;
+}
+
+article {
+  grid-row: 2;
+}
+
+#add-cities {
+  display: grid;
+  grid-template-columns: repeat(50, 1fr);
+  background-color: #f0f0f0;
+  padding: 20px 0;
+}
+
+.titles {
+  display: grid;
+  grid-column: 8 / span 16;
+  font-size: 2.8rem;
+}
+
+.title {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  grid-row: 1;
+  font-weight: bold;
+}
+
+.subtitle {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  grid-row: 2;
+}
+
+.city-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: 30 / span 15;
+}
+
+.input-box {
+  display: grid;
+  grid-template-columns: repeat(40, 1fr);
+  border: 1px solid black;
+  border-radius: 0.3rem;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 2px 1px 7px 0 rgba(0,0,0,.3);
+}
+
+.search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: 35 / span 6;
+  margin: 6px 0;
+  border-left: 1px solid black;
+}
+
+.city-input input {
+  grid-column: 1 / span 34;
+  border: none;
+  outline: none;
+  margin: 5px;
+  padding: 5px 15px;
+  font-size: 1.1rem;
+  width: 82%;
+}
+
+.fa-search {
+  transition: all 0.2s ease;
+}
+
+.fa-search:hover {
+  color: #858585;
+}
+
+
+.city-input input::placeholder {
+  color: #4e8fcc;
+}
+
+.city-input input:-ms-input-placeholder {
+  color: #4e8fcc;
+}
+
+.city-input input::-webkit-input-placeholder {
+  color: #4e8fcc;
+}
