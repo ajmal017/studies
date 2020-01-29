@@ -1,3 +1,5 @@
+// import * as Autocomplete from './modules/main.js'
+
 function GetPositionInput() {
     var ticker = document.getElementById('input-ticker').value.toLowerCase();
     var ppr = document.getElementById('input-price').value;
@@ -86,7 +88,7 @@ var modal = document.getElementById('modal');
 function ShowEditModal() {
     var dateControl = document.querySelector('input[type="date"]');
     dateControl.value = getToday();
-    modal.style.display = "block";
+    modal.style.display = "grid";
 }
 
 function CloseEditModal() {
@@ -131,7 +133,7 @@ function ShowMyHoldings() {
                 for (var i = 0; i < json.length; ++i) {
                     var holdingsDiv = document.createElement("div");
                     holdingsDiv.setAttribute('id', 'holding-' + (i + 1));
-                    holdingsDiv.setAttribute('class', 'color');
+                    holdingsDiv.setAttribute('class', 'stock-item');
                     holdingsDiv.innerHTML = `
                         <ul>
                             <li>${arrTickerNames[i].toUpperCase()}</li>
@@ -180,7 +182,6 @@ function ShowTodayGain(realTimePrice, ticker, holdingsDiv, totalQty) {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var previousPrice = JSON.parse(this.responseText).historical[0].close;
-            console.log(previousPrice);
             var outputDiv = document.getElementById("today-gain-" + ticker);
             var realTimeLi = document.getElementById('real-time-percent-' + ticker);
             var todayGain = Math.round((realTimePrice - previousPrice) * 1000) / 1000;
@@ -192,8 +193,8 @@ function ShowTodayGain(realTimePrice, ticker, holdingsDiv, totalQty) {
             }
         }
     }
-    // xhr.open("GET", "https://financialmodelingprep.com/api/v3/historical-price-full/" + ticker + "?from=" + yesterday + "&to=" + yesterday, true);
-    xhr.open("GET", "https://financialmodelingprep.com/api/v3/historical-price-full/" + ticker + "?from=2019-12-26&to=2019-12-26", true);
+    xhr.open("GET", "https://financialmodelingprep.com/api/v3/historical-price-full/" + ticker + "?from=" + yesterday + "&to=" + yesterday, true);
+    // xhr.open("GET", "https://financialmodelingprep.com/api/v3/historical-price-full/" + ticker + "?from=2019-12-26&to=2019-12-26", true);
     xhr.send(null);
 }
 
@@ -212,11 +213,11 @@ function ShowTotalGain(realTimePrice, ticker, holdingsDiv, totalQty) {
 
 function ColoringTodayGain(todayGain, holdingsDiv) {
     if (todayGain > 0) {
-        holdingsDiv.style.backgroundColor = "#00cc66";
-        holdingsDiv.style.border = "1px solid #006633";
+        holdingsDiv.style.backgroundColor = "#06A683";
+        holdingsDiv.style.border = "1px solid #06A683";
     } else if (todayGain < 0) {
-        holdingsDiv.style.backgroundColor = "#ff4d4d";
-        holdingsDiv.style.border = "1px solid #cc0000";
+        holdingsDiv.style.backgroundColor = "#D3414F";
+        holdingsDiv.style.border = "1px solid #D3414F";
     } else {
         holdingsDiv.style.backgroundColor = "lightgray";
         holdingsDiv.style.border = "1px solid gray";
@@ -225,11 +226,11 @@ function ColoringTodayGain(todayGain, holdingsDiv) {
 
 function ColoringTotalGain(totalGain, holdingsDiv) {
     if (totalGain > 0) {
-        holdingsDiv.style.backgroundColor = "#00cc66";
-        holdingsDiv.style.border = "1px solid #006633";
+        holdingsDiv.style.backgroundColor = "#06A683";
+        holdingsDiv.style.border = "1px solid #06A683";
     } else if (totalGain < 0) {
-        holdingsDiv.style.backgroundColor = "#ff4d4d";
-        holdingsDiv.style.border = "1px solid #cc0000";
+        holdingsDiv.style.backgroundColor = "#D3414F";
+        holdingsDiv.style.border = "1px solid #D3414F";
     } else {
         holdingsDiv.style.backgroundColor = "lightgray";
         holdingsDiv.style.border = "1px solid gray";
