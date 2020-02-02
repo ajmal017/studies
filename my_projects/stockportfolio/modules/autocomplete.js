@@ -1,6 +1,7 @@
 import {
   stockList
 } from './stocklist.js'
+window.addEventListener('DOMContentLoaded', clickThenRemoveList)
 
 const inputElement = document.getElementById('input-ticker');
 const candidateDiv = document.getElementById('match-candidates');
@@ -9,7 +10,6 @@ const candidateDiv = document.getElementById('match-candidates');
 inputElement.addEventListener('input', e => {
   searchByTicker(e.target);
   searchByName(e.target);
-  hideMatchDivs();
 })
 
 function searchByTicker(inputElem) {
@@ -35,6 +35,7 @@ function searchByTicker(inputElem) {
       content += `
         <span class="ticker-name"><strong>${stockList[i].Ticker.substring(0, tickerInput.length)}</strong>${stockList[i].Ticker.substring(tickerInput.length)}</span>
         <span class="exchange-name">${stockList[i].Exchange}</span>
+        <input type="hidden" value="${stockList[i].Ticker}">
       `;
 
       matchItemsDivs.innerHTML = content;
@@ -58,7 +59,6 @@ function searchByName(inputElem) {
     return false;
   }
 
-  // removeExistingList();
   if (isCandidatesExist(inputElem.nextElementSibling.childNodes[0])) {
     for (let i = 0, content; i < stockListLength; i++) {
       if (stockList[i].Name.substring(0, tickerInput.length).toUpperCase() === tickerInput.toUpperCase()) {
@@ -70,7 +70,10 @@ function searchByName(inputElem) {
         } else {
           content += `<span class="ticker-name">${stockList[i].Ticker}</span>`;
         }
-        content += `<span class="exchange-name">${stockList[i].Exchange}</span>`;
+        content += `
+          <span class="exchange-name">${stockList[i].Exchange}</span>
+          <input type="hidden" value="${stockList[i].Ticker}">
+        `;
         matchItemsDivs.innerHTML = content;
         candidateDiv.appendChild(matchItemsDivs);
       }
@@ -79,7 +82,6 @@ function searchByName(inputElem) {
     candidateDiv.innerHTML = '';
     for (let i = 0, content; i < stockListLength; i++) {
       if (stockList[i].Name.substring(0, tickerInput.length).toUpperCase() === tickerInput.toUpperCase()) {
-        // stockList[i].Name.replace(' ', '&nbsp;');
         const matchItemsDivs = document.createElement('DIV');
         matchItemsDivs.setAttribute('class', 'match-items');
         content = `<pre class="company-name"><strong>${stockList[i].Name.substring(0, tickerInput.length)}</strong>${stockList[i].Name.substring(tickerInput.length)}</pre>`
@@ -88,7 +90,10 @@ function searchByName(inputElem) {
         } else {
           content += `<span class="ticker-name">${stockList[i].Ticker}</span>`;
         }
-        content += `<span class="exchange-name">${stockList[i].Exchange}</span>`;
+        content += `
+          <span class="exchange-name">${stockList[i].Exchange}</span>
+          <input type="hidden" value="${stockList[i].Ticker}">
+        `;
         matchItemsDivs.innerHTML = content;
         candidateDiv.appendChild(matchItemsDivs);
       }
@@ -108,9 +113,19 @@ function isOverFlown(element) {
   return element.scrollHeight > element.clientHeight;
 }
 
-function hideMatchDivs() {
-  const matchDivs = document.getElementById('match-candidates');
-  matchDivs.addEventListener('click', e => {
-    e.target.parentNode.innerHTML = '';
+function clickThenRemoveList() {
+  candidateDiv.addEventListener('click', e => {
+    let tickerName;
+    const inputTickerElem = document.getElementById('input-ticker');
+    if (e.target.tagName === 'STRONG') {
+      tickerName = e.target.parentNode.parentNode.children[3].value;
+    } else if (!e.target.classList.contains('match-items')) {
+      tickerName = e.target.parentNode.children[3].value;
+    } else {
+      tickerName = e.target.children[3].value;
+    }
+    inputTickerElem.value = tickerName;
+    removeExistingList();
   })
+
 }

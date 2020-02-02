@@ -123,14 +123,15 @@ input[type='number'] {
     grid-column: 10 / span 12;
     display: grid;
     grid-template-columns: repeat(50, 1fr);
-    grid-template-rows: 40px 30px repeat(4, 25px) 80px;
-    row-gap: 20px;
+    grid-template-rows: 40px 30px repeat(4, 25px) 30px;
+    row-gap: 25px;
     background-color: #342E32;
     color: white;
-    margin: 110px 0;
+    margin: 20vh 0;
     padding: 20px;
     border: 1px solid #888;
     border-radius: 0.35rem;
+    align-items: center;
 }
 
 #btn-close-modal {
@@ -170,17 +171,8 @@ input[type='number'] {
     margin: 0;
 }
 
-#radio-buy {
-    grid-row: 1;
-    grid-column: 20 / span 3;
-}
-
-#radio-sell {
-    grid-row: 1;
-    grid-column: 24 / span 3;
-}
-
 #autocomplete {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(30, 1fr);
     grid-row: 3;
@@ -193,7 +185,40 @@ input[type='number'] {
 #input-date {
     padding: 7px;
     grid-row: 1;
-    grid-column: 18 / span 13;
+}
+
+#input-ticker {
+    grid-column: 15 / span 16;
+}
+
+#input-price {
+    grid-column: 15 / span 16;
+}
+
+#input-quantity {
+    grid-column: 15 / span 16;
+}
+
+#input-date {
+    grid-column: 15 / span 9;
+}
+
+@media screen and (max-width: 1490px) {
+    #input-ticker {
+        grid-column: 14 / span 16;
+    }
+
+    #input-price {
+        grid-column: 14 / span 16;
+    }
+
+    #input-quantity {
+        grid-column: 14 / span 16;
+    }
+
+    #input-date {
+        grid-column: 14 / span 9;
+    }
 }
 
 #input-date {
@@ -205,16 +230,17 @@ input[type='number'] {
 #input-quantity:focus,
 #input-date:focus {
     border: 1px solid dodgerblue;
-    border-radius: 0.35rem;
+    border-radius: 0.3rem;
     outline: none;
     box-shadow: 0 0 0 1px dodgerblue;
 }
 
 #match-candidates {
+    position: absolute;
     z-index: 100;
     background-color: #342E32;
     grid-row: 2;
-    grid-column: 20 / span 10;
+    grid-column: 15 / span 15;
 }
 
 #price-per-share-span {
@@ -238,36 +264,69 @@ input[type='number'] {
     grid-column: 1 / span 50;
 }
 
-#add-position {
+#edit-button-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    grid-row: 7;
-    grid-column: 24 / span 4;
-    font-size: 24px;
+    grid-row: 8;
+    grid-column: 1 / span 50;
+}
+
+#btn-edit-position {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
     color: #aaaaaa;
 }
 
-#add-position:hover,
-#add-position:focus {
+#btn-edit-position:hover,
+#btn-edit-position:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
 }
 
 .stock-item {
+    display: grid;
     height: 300px;
     width: 200px;
     justify-self: center;
     border-radius: 0.45rem;
+    /*Remove this part after the test has finished*/
+    background-color: #06a683
 }
 
 .match-items {
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+    row-gap: 6px;
     border: 1px solid white;
+}
+
+.match-items .company-name {
+    white-space: pre-wrap;
+    font-size: 1.3rem;
+    grid-row: 1;
+    grid-column: 1 / span 30;
+}
+
+.match-items .ticker-name {
+    grid-row: 2;
+    grid-column: 1 / span 15;
+}
+
+.match-items .exchange-name {
+    grid-row: 2;
+    grid-column: 23 / span 2;
 }
 
 .match-items:not(:nth-child(1)) {
     border-top: none;
+}
+
+.match-items:hover {
+    background-color: #808080;
 }
 
 .match-items pre {
@@ -279,30 +338,26 @@ input[type='number'] {
     color: dodgerblue;
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1570px) {
     #main {
-        display: grid;
         grid-template-columns: repeat(5, 1fr);
     }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1290px) {
     #main {
-        display: grid;
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-@media screen and (max-width: 945px) {
+@media screen and (max-width: 980px) {
     #main {
-        display: grid;
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 715px) {
     #main {
-        display: grid;
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -313,7 +368,58 @@ input[type='number'] {
 
 @media screen and (max-width: 405px) {
     #main {
-        display: grid;
         grid-template-columns: 1fr;
     }
+}
+
+#radio-container {
+    grid-row: 1;
+    grid-column: 16 / span 11;
+    position: relative;
+}
+
+@media screen and (max-width: 1600px) {
+    #radio-container {
+        grid-column: 16 / span 12;
+    }
+}
+
+input[type=radio] {
+    display: none;
+}
+
+.label-buy,
+.label-sell {
+    display: block;
+    width: 97px;
+    background-color: rgb(32, 32, 32);
+    background-size: 180px 130px;
+    position: absolute;
+    top: 0;
+}
+
+.label-buy {
+    border-radius: 0.35rem;
+}
+
+.label-sell {
+    right: 0;
+    border-radius: 0.35rem;
+}
+
+.label-buy span,
+.label-sell span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input[type=radio]:checked+label {
+    background-color: dodgerblue;
+    color: white;
+}
+
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
 }
