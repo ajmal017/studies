@@ -8,14 +8,14 @@ Date.prototype.adjustHourToEasternTime = function (h) {
 }
 
 function initiateListners() {
-	ShowMyHoldings();
+	showMyHoldings();
 	document.getElementById('btn-open-modal').addEventListener('click', showEditModal);
 	document.getElementById('btn-close-modal').addEventListener('click', closeEditModal);
 	document.getElementById('btn-edit-position').addEventListener('click', getInputData);
 	document.getElementById('main').addEventListener('click', e => {
 		if (e.target.classList.contains('material-icons')) {
-			const companyName = e.target.parentNode.parentNode.children[1].textContent;
-			const ticker = e.target.parentNode.parentNode.children[2].textContent;
+			const companyName = e.target.parentNode.parentNode.children[7].value;
+			const ticker = e.target.parentNode.parentNode.children[8].value;
 			liquidatePosition(companyName, ticker);
 		}
 	})
@@ -104,72 +104,83 @@ function closeEditModal() {
 
 }
 
-function ShowMyHoldings() {
-	var mainDiv = document.getElementById('main');
-	mainDiv.innerHTML = "";
-	var totalQty = 0;
-	var totalPrice = 0;
-	var arrTickerNames = [];
-	var arrAvgPrices = [];
-	var arrTotalQtys = [];
-	var xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = function () {
-		if (this.readyState == 4 && this.status == 200) {
-			if (this.responseText === "null") {} else {
-				var json = JSON.parse(this.responseText);
-				for (var i = 0; i < json.length; ++i) {
-					for (var j = 0; j < json[i].transaction.length; ++j) {
-						if (j == 0)
-							arrTickerNames.push(json[i].name);
-						totalPrice += json[i].transaction[j].price * json[i].transaction[j].quantity;
-						totalQty += parseInt(json[i].transaction[j].quantity);
-					}
-					arrAvgPrices.push(Math.round(totalPrice / totalQty * 1000) / 1000); // rounding in third place
-					arrTotalQtys.push(totalQty);
-					totalPrice = 0;
-					totalQty = 0;
-				}
-				for (var i = 0; i < json.length; ++i) {
-					var holdingsDiv = document.createElement("div");
-					holdingsDiv.setAttribute('id', 'holding-' + (i + 1));
-					holdingsDiv.setAttribute('class', 'stock-item');
-					const companyName = getMatchCompanyName(arrTickerNames[i]);
-					// holdingsDiv.innerHTML = `
-					// 							<ul>
-					// 									<li>${companyName}</li>
-					//                   <li>${arrTickerNames[i].toUpperCase()}</li>
-					//                   <li id='avg-price-${arrTickerNames[i]}'>Avg.Price: ${arrAvgPrices[i]}</li>
-					//                   <li id='total-qty-${arrTickerNames[i]}'>Total Quantity: ${arrTotalQtys[i]}</li>
-					//                   <li id='real-time-price-${arrTickerNames[i]}'>&#160;<span id='real-time-percent-${arrTickerNames[i]}'></span></li>
-					//                   <li id='today-gain-${arrTickerNames[i]}'></li>
-					// 									<li id='total-gain-${arrTickerNames[i]}'></li>
-					// 									<li><i class="fas fa-trash"></i></li>
-					//               </ul>
-					// 					`;
-					holdingsDiv.innerHTML = `
-						<input type="hidden" value="${arrAvgPrices[i]}">
-						<div id="company-name-${companyName}">${companyName}</div>
-						<div id="ticker-name-${arrTickerNames[i].toUpperCase()}">${arrTickerNames[i].toUpperCase()}</div>
-						<div id="real-time-price-${arrTickerNames[i]}"></div>
-						<div id="today-gain-${arrTickerNames[i]}"> </div>
-						<div id="total-gain-${arrTickerNames[i]}" ></div>
-						<div class="show-more"><span class="btn-show-more">SHOW MORE</span></div>
-						<div class="delete-icon"><i class="material-icons">delete</i></div>
-					`
-					mainDiv.appendChild(holdingsDiv);
-				}
-				for (var i = 0; i < json.length; ++i) {
-					var holdingsDiv = document.getElementById('holding-' + (i + 1));
-					setTimeout(function run(ticker, div, qty) {
-						getRealTimePrice(ticker, div, qty);
-						setTimeout(run, 2000, ticker, div, qty);
-					}, 1, arrTickerNames[i], holdingsDiv, arrTotalQtys[i]);
-				}
-			}
-		}
+async function showTotalValue() {
+	const url = 'getCosts.php';
+	const costDiv = document.getElementById('total-value');
+	const response = await fetch(url);
+	const holdingsLen = document.getElementsByClassName('stock-item').length;
+	let sumTotalGain = 0;
+	for (let i = 0; i < holdingsLen; i++) {
+		const sharesDiv = document.getElementById(`holding-${i + 1}`);
+		sumTotalGain += parseFloat(sharesDiv.children[10].value);
 	}
-	xhr.open("GET", "showHoldings.php", true);
-	xhr.send(null);
+	response.json().then(totalCost => {
+		const totalGains = (parseFloat(totalCost.costs) + sumTotalGain).toFixed(2)
+		const totalGainsPercent = ((sumTotalGain / totalCost.costs) * 100).toFixed(2);
+		if (totalGains > 0) {
+			costDiv.style.color = '#06A683';
+		} else if (totalGains < 0) {
+			costDiv.style.color = '#D3414F';
+		}
+		costDiv.textContent = `Total Value: $${totalGains}(${totalGainsPercent}%)`
+	});
+}
+
+async function showMyHoldings() {
+	const mainDiv = document.getElementById('main');
+	mainDiv.innerHTML = '';
+	let totalQuantity = 0;
+	let totalPrice = 0;
+	const tickers = [];
+	const avgPrices = [];
+	const totalQuantities = [];
+	const url = 'showHoldings.php';
+	const response = await fetch(url);
+	response.json().then(tables => {
+		const tableLen = tables.length;
+		for (let i = 0; i < tableLen; i++) {
+			for (let j = 0, n = tables[i].transaction.length; j < n; j++) {
+				if (j === 0) tickers.push(tables[i].name);
+				totalPrice += tables[i].transaction[j].price * tables[i].transaction[j].quantity;
+				totalQuantity += parseInt(tables[i].transaction[j].quantity);
+			}
+			avgPrices.push((totalPrice / totalQuantity).toFixed(3));
+			totalQuantities.push(totalQuantity);
+			totalPrice = 0;
+			totalQuantity = 0;
+		}
+		for (let i = 0; i < tableLen; i++) {
+			const holdingsDiv = document.createElement('DIV');
+			holdingsDiv.setAttribute('id', `holding-${i + 1}`);
+			holdingsDiv.setAttribute('class', 'stock-item');
+			const companyName = getMatchCompanyName(tickers[i]);
+			const companyExchange = getMatchExchangeName(tickers[i]);
+			holdingsDiv.innerHTML = `
+				<div id="company-name-and-ticker-${tickers[i]}">
+					<span class="item-company-name">${companyName}</span>
+					<span class="item-company-ticker-and-exchange">${companyExchange}&#160;&#160;&#160;${tickers[i].toUpperCase()}</span>
+				</div>
+				<div id="real-time-price-${tickers[i]}"></div>
+				<div id="today-gain-${tickers[i]}"></div>
+				<div id="total-gain-${tickers[i]}"></div>
+				<div class="show-more"><span class="btn-show-more">SHOW MORE</span></div>
+				<div class="delete-icon"><i class="material-icons">delete</i></div>
+				<input type="hidden" name="avg-price" value="${avgPrices[i]}">
+				<input type="hidden" name="company-name" value="${companyName}">
+				<input type="hidden" name="ticker" value="${tickers[i]}">
+				<input type="hidden" name="today-gain">
+				<input type="hidden" name="total-gain">
+			`
+			mainDiv.appendChild(holdingsDiv);
+		}
+		for (let i = 0; i < tableLen; i++) {
+			const stockDiv = document.getElementById(`holding-${i + 1}`);
+			setTimeout(function run(ticker, div, qty) {
+				getRealTimePrice(ticker, div, qty);
+				setTimeout(run, 2000, ticker, div, qty);
+			}, 1, tickers[i], stockDiv, totalQuantities[i]);
+		}
+	});
 }
 
 function getMatchCompanyName(ticker) {
@@ -182,6 +193,15 @@ function getMatchCompanyName(ticker) {
 	return matchName;
 }
 
+function getMatchExchangeName(ticker) {
+	let matchExchange = '';
+	stockList.forEach(stock => {
+		if (ticker.toUpperCase() === stock.Ticker) {
+			matchExchange = stock.Exchange;
+		}
+	});
+	return matchExchange;
+}
 
 async function getRealTimePrice(ticker, holdingsDiv, totalQty) {
 	const url = `https://financialmodelingprep.com/api/v3/stock/real-time-price/${ticker}`;
@@ -192,7 +212,7 @@ async function getRealTimePrice(ticker, holdingsDiv, totalQty) {
 		const realTimePrice = realTimeData.price.toFixed(2);
 		priceDiv.textContent = realTimePrice;
 		showTodayGain(realTimePrice, ticker, holdingsDiv, totalQty);
-		ShowTotalGain(realTimePrice, ticker, holdingsDiv, totalQty);
+		showTotalGain(realTimePrice, ticker, holdingsDiv, totalQty);
 	});
 }
 
@@ -208,23 +228,26 @@ function showTodayGain(realTimePrice, ticker, holdingsDiv, totalQty) {
 		const todayGainPercent = (todayGain / realTimePrice * 100).toFixed(3);
 		const totalTodayGain = ((realTimePrice - previousPrice) * totalQty).toFixed(2);
 		todayGainDiv.textContent = `Today's P&L: ${totalTodayGain}(${todayGainPercent}%)`;
+		holdingsDiv.children[9].setAttribute('value', todayGain);
 		if (selectGain === "today") {
 			ColoringTodayGain(todayGain, holdingsDiv);
 		}
 	});
 }
 
-function ShowTotalGain(realTimePrice, ticker, holdingsDiv, totalQty) {
+function showTotalGain(realTimePrice, ticker, holdingsDiv, totalQty) {
 	const selectGain = document.getElementById('select-gain').value;
-	const extractFloat = /[+-]?\d+(\.\d+)?/g;
-	const avgPrice = holdingsDiv.children[0].value;
+	// const extractFloat = /[+-]?\d+(\.\d+)?/g;
+	const avgPrice = holdingsDiv.children[6].value;
 	const totalGain = ((realTimePrice - avgPrice) * totalQty).toFixed(2);
 	const totalGainPercent = (totalGain / (avgPrice * totalQty) * 100).toFixed(3);
 	const outputDiv = document.getElementById(`total-gain-${ticker}`);
 	outputDiv.textContent = `Total P&L: ${totalGain}(${totalGainPercent}%)`
+	holdingsDiv.children[10].setAttribute('value', totalGain);
 	if (selectGain === "total") {
 		ColoringTotalGain(totalGain, holdingsDiv);
 	}
+	showTotalValue();
 }
 
 async function getPreviousPrice(ticker) {
@@ -261,7 +284,6 @@ async function getPreviousPrice(ticker) {
 	return priceVal.json();
 }
 
-
 function getEasternTime(requestData) {
 	const localTime = new Date();
 	const easternTimeOffset = localTime.getTimezoneOffset() / 60 - 5;
@@ -275,7 +297,6 @@ function getEasternTime(requestData) {
 	return nowTime;
 }
 
-
 function getPreviousDay(subVal) {
 	const localTime = new Date();
 	const easternTimeOffset = localTime.getTimezoneOffset() / 60 - 5 - (subVal * 24);
@@ -287,7 +308,6 @@ function getPreviousDay(subVal) {
 	if (!(month == '11' || month == '12')) month = 0 + month;
 	return `${year}-${month}-${day}`;
 }
-
 
 async function liquidatePosition(companyName, ticker) {
 	if (confirm(`Are you sure you want to liquidate '${companyName}' position?`)) {

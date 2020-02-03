@@ -1,7 +1,7 @@
 body {
     margin: 0;
     display: grid;
-    row-gap: 5vh;
+    row-gap: 10vh;
     background-color: #272628;
     font-family: 'Nunito', sans-serif;
 }
@@ -60,12 +60,12 @@ article {
     grid-row: 2;
     display: grid;
     grid-template-columns: repeat(30, 1fr);
-    row-gap: 10vh;
+    row-gap: 5.7vh;
 }
 
-article select {
-    grid-row: 1;
-    grid-column: 26 / span 2;
+#select-gain {
+    grid-row: 2;
+    grid-column: 28 / span 2;
 }
 
 ul {
@@ -89,11 +89,21 @@ input[type='number'] {
     background-color: #342E32;
 }
 
+#total-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-row: 1;
+    grid-column: 1 / span 30;
+    color: #DCF5FF;
+    font-size: 3.0rem;
+}
+
 #main {
-    grid-row: 2;
+    grid-row: 3;
     grid-column: 1 / span 30;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 300px);
     column-gap: 4vw;
     row-gap: 30px;
     justify-self: center;
@@ -289,12 +299,12 @@ input[type='number'] {
 
 .stock-item {
     display: grid;
-    height: 300px;
-    width: 200px;
+    grid-template-columns: auto;
+    width: 100%;
+    height: 397px;
     justify-self: center;
+    color: #000;
     border-radius: 0.45rem;
-    /*Remove this part after the test has finished*/
-    background-color: #06a683
 }
 
 .match-items {
@@ -338,27 +348,104 @@ input[type='number'] {
     color: dodgerblue;
 }
 
-@media screen and (max-width: 1570px) {
-    #main {
-        grid-template-columns: repeat(5, 1fr);
-    }
+div[id^="company-name-and-ticker-"] {
+    display: grid;
+    grid-template-columns: auto;
+    grid-row: auto;
+    row-gap: 0;
 }
 
-@media screen and (max-width: 1290px) {
+div[id^="real-time-price-"] {
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(220, 245, 255)
+}
+
+div[id^="today-gain-"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+div[id^="total-gain-"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.show-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.btn-show-more {
+    cursor: pointer;
+}
+
+.btn-show-more:hover {
+    color: #acacac;
+}
+
+.delete-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.material-icons {
+    cursor: pointer
+}
+
+.material-icons:hover {
+    color: #acacac;
+}
+.item-company-name {
+    grid-row: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.item-company-ticker-and-exchange {
+    grid-row: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 300;
+}
+
+@media screen and (max-width: 1570px) {
     #main {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 1290px) {
     #main {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-@media screen and (max-width: 715px) {
+@media screen and (max-width: 980px) {
     #main {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 715px) {
+    #main {
+        grid-template-columns: repeat(1, 1fr);
     }
 
     #modal-content {
