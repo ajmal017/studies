@@ -115,7 +115,7 @@ input[type='number'] {
     justify-content: center;
 }
 
-#modal {
+.modal {
     grid-row: 1;
     display: none;
     position: fixed;
@@ -129,7 +129,7 @@ input[type='number'] {
     grid-template-columns: repeat(30, 1fr);
 }
 
-#modal-content {
+#stock-modal-content {
     grid-column: 10 / span 12;
     display: grid;
     grid-template-columns: repeat(50, 1fr);
@@ -144,7 +144,23 @@ input[type='number'] {
     align-items: center;
 }
 
-#btn-close-modal {
+#cash-modal-content {
+    grid-column: 10 / span 12;
+    display: grid;
+    grid-template-columns: repeat(50, 1fr);
+    grid-template-rows: 40px 30px repeat(2, 25px) 0;
+    row-gap: 25px;
+    background-color: #342E32;
+    color: white;
+    margin: 31vh 0;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 0.35rem;
+    align-items: center;
+}
+
+#btn-close-stock-modal,
+#btn-close-cash-modal {
     grid-row: 1;
     grid-column: 49 / span 1;
     color: #aaaaaa;
@@ -154,25 +170,31 @@ input[type='number'] {
     font-weight: bold;
 }
 
-#btn-close-modal:hover,
-#btn-close-modal:focus {
+#btn-close-stock-modal:hover,
+#btn-close-stock-modal:focus,
+#btn-close-cash-modal:hover,
+#btn-close-cash-modal:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
 }
 
-#select-type {
+#select-type-stock,
+#select-type-cash {
     display: grid;
     grid-template-columns: repeat(30, 1fr);
     grid-row: 2;
     grid-column: 1 / span 50;
 }
 
-#select-type p,
+#select-type-stock p,
+#select-type-cash p,
 #autocomplete p,
 #price-per-share-span p,
-#quantity-span p,
-#transaction-span p {
+#stock-quantity-span p,
+#cash-quantity-span p,
+#stock-transaction-span p,
+#cash-transaction-span p {
     display: flex;
     align-items: center;
     justify-content: left;
@@ -191,8 +213,10 @@ input[type='number'] {
 
 #input-ticker,
 #input-price,
-#input-quantity,
-#input-date {
+#input-stock-quantity,
+#input-cash-quantity,
+#stock-input-date,
+#cash-input-date {
     padding: 7px;
     grid-row: 1;
 }
@@ -205,11 +229,11 @@ input[type='number'] {
     grid-column: 15 / span 16;
 }
 
-#input-quantity {
+#input-stock-quantity {
     grid-column: 15 / span 16;
 }
 
-#input-date {
+#stock-input-date {
     grid-column: 15 / span 9;
 }
 
@@ -222,23 +246,23 @@ input[type='number'] {
         grid-column: 14 / span 16;
     }
 
-    #input-quantity {
+    #input-stock-quantity {
         grid-column: 14 / span 16;
     }
 
-    #input-date {
+    #stock-input-date {
         grid-column: 14 / span 9;
     }
 }
 
-#input-date {
+#stock-input-date {
     padding: 2px 7px;
 }
 
 #input-ticker:focus,
 #input-price:focus,
-#input-quantity:focus,
-#input-date:focus {
+#input-stock-quantity:focus,
+#stock-input-date:focus {
     border: 1px solid dodgerblue;
     border-radius: 0.3rem;
     outline: none;
@@ -260,21 +284,21 @@ input[type='number'] {
     grid-column: 1 / span 50;
 }
 
-#quantity-span {
+#stock-quantity-span {
     display: grid;
     grid-template-columns: repeat(30, 1fr);
     grid-row: 5;
     grid-column: 1 / span 50;
 }
 
-#transaction-span {
+#stock-transaction-span {
     display: grid;
     grid-template-columns: repeat(30, 1fr);
     grid-row: 6;
     grid-column: 1 / span 50;
 }
 
-#edit-button-container {
+#stock-edit-button-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -282,7 +306,8 @@ input[type='number'] {
     grid-column: 1 / span 50;
 }
 
-#btn-edit-position {
+#btn-edit-stock-position,
+#btn-edit-cash-position {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -290,11 +315,43 @@ input[type='number'] {
     color: #aaaaaa;
 }
 
-#btn-edit-position:hover,
-#btn-edit-position:focus {
+#btn-edit-stock-position:hover,
+#btn-edit-stock-position:focus,
+#btn-edit-cash-position:hover,
+#btn-edit-cash-position:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+#cash-quantity-span {
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+    grid-row: 3;
+    grid-column: 1 / span 50;
+}
+
+#input-cash-quantity {
+    grid-column: 15 / span 16;
+}
+
+#cash-transaction-span {
+    grid-row: 4;
+    grid-column: 1 / span 50;
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+}
+
+#cash-input-date {
+    grid-column: 15 / span 16;
+}
+
+#cash-edit-button-container {
+    grid-row: 6;
+    grid-column: 1 / span 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .stock-item {
@@ -365,16 +422,27 @@ div[id^="real-time-price-"] {
     color: rgb(220, 245, 255)
 }
 
-div[id^="today-gain-"] {
+.show-gains {
+    display: grid;
+}
+
+.shares-and-avg-price {
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
 }
 
+div[id^="today-gain-"] {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-weight: 700;
+}
+
 div[id^="total-gain-"] {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     font-weight: 700;
 }
@@ -407,6 +475,7 @@ div[id^="total-gain-"] {
 .material-icons:hover {
     color: #acacac;
 }
+
 .item-company-name {
     grid-row: 1;
     display: flex;
@@ -448,7 +517,7 @@ div[id^="total-gain-"] {
         grid-template-columns: repeat(1, 1fr);
     }
 
-    #modal-content {
+    #stock-modal-content {
         width: 400px;
     }
 }
@@ -459,14 +528,14 @@ div[id^="total-gain-"] {
     }
 }
 
-#radio-container {
+.radio-container {
     grid-row: 1;
     grid-column: 16 / span 11;
     position: relative;
 }
 
 @media screen and (max-width: 1600px) {
-    #radio-container {
+    .radio-container {
         grid-column: 16 / span 12;
     }
 }
@@ -476,7 +545,9 @@ input[type=radio] {
 }
 
 .label-buy,
-.label-sell {
+.label-sell,
+.label-deposit,
+.label-withdrawal {
     display: block;
     width: 97px;
     background-color: rgb(32, 32, 32);
@@ -485,17 +556,21 @@ input[type=radio] {
     top: 0;
 }
 
-.label-buy {
+.label-buy,
+.label-deposit {
     border-radius: 0.35rem;
 }
 
-.label-sell {
+.label-sell,
+.label-withdrawal {
     right: 0;
     border-radius: 0.35rem;
 }
 
 .label-buy span,
-.label-sell span {
+.label-sell span,
+.label-deposit span,
+.label-withdrawal span {
     display: flex;
     align-items: center;
     justify-content: center;

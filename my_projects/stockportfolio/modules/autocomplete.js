@@ -1,3 +1,4 @@
+'use strict';
 import {
   stockList
 } from './stocklist.js'
@@ -126,6 +127,5 @@ function clickThenRemoveList() {
     }
     inputTickerElem.value = tickerName;
     removeExistingList();
-  })
-
+  });
 }

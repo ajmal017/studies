@@ -17,11 +17,11 @@
     <header>
         <a href="#">
             <img src="./images/zoology.svg" alt="bull image">
-            <h1>Stock Portfolio</h1>
+            <h1>TYROS Inc.</h1>
         </a>
         <div id="button-div">
-            <button id="btn-open-modal">Edit Position</button>
-            <button>Edit Cash</button>
+            <button id="btn-open-stock-modal">EDIT POSITION</button>
+            <button id="btn-open-cash-modal">EDIT CASH</button>
         </div>
 
     </header>
@@ -34,17 +34,17 @@
         <section id="main"></section>
     </article>
 
-    <div id="modal">
-        <div id="modal-content">
-            <span id="btn-close-modal">&times;</span>
-            <span id="select-type">
+    <div id="stock-modal" class="modal">
+        <div id="stock-modal-content">
+            <span id="btn-close-stock-modal">&times;</span>
+            <span id="select-type-stock">
                 <p>Type:</p>
-                <div id="radio-container">
-                    <input type="radio" name="type" id="radio-buy" checked>
+                <div class="radio-container">
+                    <input type="radio" name="type-stock" id="radio-buy" checked>
                     <label for="radio-buy" class="label-buy">
                         <span>Buy</span>
                     </label>
-                    <input type="radio" name="type" id="radio-sell">
+                    <input type="radio" name="type-stock" id="radio-sell">
                     <label for="radio-sell" class="label-sell">
                         <span>Sell</span>
                     </label>
@@ -58,15 +58,43 @@
                 <p>Price Per Share:</p><input id="input-price" type="text"
                     placeholder="Please Enter the Price Per Shares">
             </span>
-            <span id="quantity-span">
-                <p>Quantity:</p><input id="input-quantity" type="number" min="1" step="1"
+            <span id="stock-quantity-span">
+                <p>Quantity:</p><input id="input-stock-quantity" type="number" min="1" step="1"
                     placeholder="Please Enter the Number of Shares">
             </span>
-            <span id="transaction-span">
-                <p>Transaction Date:</p><input id="input-date" type="date">
+            <span id="stock-transaction-span">
+                <p>Transaction Date:</p><input id="stock-input-date" type="date">
             </span>
-            <div id="edit-button-container">
-                <span id="btn-edit-position">EDIT</span>
+            <div id="stock-edit-button-container">
+                <span id="btn-edit-stock-position">EDIT</span>
+            </div>
+        </div>
+    </div>
+    <div id="cash-modal" class="modal">
+        <div id="cash-modal-content">
+            <span id="btn-close-cash-modal">&times;</span>
+            <span id="select-type-cash">
+                <p>Type:</p>
+                <div class="radio-container">
+                    <input type="radio" name="type-cash" id="radio-deposit" checked>
+                    <label for="radio-deposit" class="label-deposit">
+                        <span>Deposit</span>
+                    </label>
+                    <input type="radio" name="type-cash" id="radio-withdrawal">
+                    <label for="radio-withdrawal" class="label-withdrawal">
+                        <span>Withdrawal</span>
+                    </label>
+                </div>
+            </span>
+            <span id="cash-quantity-span">
+                <p>Quantity:</p><input id="input-cash-quantity" type="number" min="1" step="1"
+                    placeholder="Please Enter the Amount of Cash">
+            </span>
+            <span id="cash-transaction-span">
+                <p>Transaction Date:</p><input id="cash-input-date" type="date">
+            </span>
+            <div id="cash-edit-button-container">
+                <span id="btn-edit-cash-position">EDIT</span>
             </div>
         </div>
     </div>

@@ -25,7 +25,7 @@ function getTableList()
   if (!$result) die("Error: " . $conn->error);
   for ($i = 0; $i < $result->num_rows; ++$i) {
     $row = $result->fetch_array(MYSQLI_NUM);
-    array_push($list, $row[0]);
+    if($row[0] != 'mycash')  array_push($list, $row[0]);
   }
 
   return $list;
