@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      // Name to whatever you like:
+      "name": "notes-app",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}\\notes-app\\app.js",
+      "cwd": "${workspaceFolder}\\notes-app",
+      "sourceMaps": true,
+      // You can leave this off if you wish to run in the Debug Console
+      // instead:
+      "console": "integratedTerminal",
+      // These are the args you wish to pass to app.js.
+      // Downside: You’ll have to change them every time to what you
+      // wish to pass in:
+      "args": [
+        "add",
+        "--title='x'",
+        "--body='xxxxx'"
+      ],
+      // These are the arguments you wish to pass to node:
+      "runtimeArgs": [
+        "--inspect-brk"
+      ]
+    }
+  ]
+}

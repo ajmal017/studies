@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/weather-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap" rel="stylesheet">
+  <title>Document</title>
+</head>
+
+<body>
+  {{>header}}
+  <div id="error-msg-container"></div>
+  <section id="main-container">
+    <div id="title-and-form-container">
+      <div id="title-container">
+        <span id="title-main">Explore the weather</span><span id="title-sub">anywhere in the world</span>
+      </div>
+      <div id="form-container">
+        <form action="" id="search-form">
+          <div id="search-container">
+            <input id="search-box" type="text" placeholder="Your country, city or location...">
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="weather-data"></div>
+  </section>
+  {{>footer}}
+
+  <script src="/javascript/app.js"></script>
+</body>
+
+</html>
