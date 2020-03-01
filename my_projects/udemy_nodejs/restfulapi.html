@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <style>
+      .green {
+        background-color: rgba(179, 255, 179, 0.6);
+      }
+      .blue {
+        background-color: rgba(179, 230, 255, 0.8);
+      }
+      .yellow {
+        background-color: rgba(255, 255, 204);
+      }
+      .red {
+        background-color: rgba(255, 179, 179, 0.8);
+      }
+    </style>
+    <title>About RESTful</title>
+  </head>
+  <body>
+    <div class="jumbotron">
+      <h1 class="display-1"><strong>RESTful Routes</strong></h1>
+      <h4>A Table of All 7 RESTful Routes</h4>
+    </div>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Path</th>
+          <th scope="col">HTTP Verb</th>
+          <th scope="col">Purpose</th>
+          <th scope="col">Mongoose Method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-light">
+          <th scope="row">READ</th>
+          <td>/dogs</td>
+          <td>GET</td>
+          <td>List all dogs</td>
+          <td>Dog.find()</td>
+        </tr>
+        <tr class="green">
+          <th scope="row">NEW</th>
+          <td>/dogs/new</td>
+          <td>GET</td>
+          <td>Show new dog form</td>
+          <td>N/A</td>
+        </tr>
+        <tr class="green">
+          <th scope="row">CREATE</th>
+          <td>/dogs</td>
+          <td>POST</td>
+          <td>Create a new dog, the redirect somewhere</td>
+          <td>Dog.create()</td>
+        </tr>
+        <tr class="blue">
+          <th scope="row">SHOW</th>
+          <td>/dogs/:id</td>
+          <td>GET</td>
+          <td>Show info about one specific dog</td>
+          <td>Dog.findById()</td>
+        </tr>
+        <tr class="yellow">
+          <th scope="row">EDIT</th>
+          <td>/dogs/:id/edit</td>
+          <td>GET</td>
+          <td>Show edit form for one dog</td>
+          <td>Dog.findById()</td>
+        </tr>
+        <tr class="yellow">
+          <th scope="row">UPDATE</th>
+          <td>/dogs/:id</td>
+          <td>PUT</td>
+          <td>Update particular dog, then redirect somewhere</td>
+          <td>Dog.findByIdAndUpdate()</td>
+        </tr>
+        <tr class="red">
+          <th scope="row">DESTROY</th>
+          <td>/dogs/:id</td>
+          <td>DELETE</td>
+          <td>Delete a particular dog, then redirect somewhere</td>
+          <td>Dog.findByIdAndRemove()</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

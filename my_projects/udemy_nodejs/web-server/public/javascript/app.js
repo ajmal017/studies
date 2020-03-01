@@ -1,7 +1,9 @@
+import { getWeatherDesc, getWeatherIcon } from './get-description.js'
 const weatherForm = document.querySelector('#search-form');
 
+
 function getWeatherData(location) {
-  const url = `http://127.0.0.1:3000/weather?address=${location}`;
+  const url = `/weather?address=${location}`;
   fetch(url).then(res => {
     res.json().then(data => {
       if (data.geoErr) {
@@ -31,7 +33,27 @@ function popUpErrorMsg(errorMsg) {
 
 function showWeatherData(weatherData) {
   const resultDiv = document.querySelector('#weather-data');
-  resultDiv.textContent = `${weatherData.placeName}\xA0\xA0\xA0Current Temp: ${weatherData.forecastData}\xA0\xB0C`;
+
+  const placeName = weatherData.placeName;
+  const weatherCode = weatherData.forecastData.weatherCode;
+  const currentTemp = weatherData.forecastData.currentTemp;
+  const tempFeelsLike = weatherData.forecastData.feelsLike;
+  const windSpeed = weatherData.forecastData.windSpeed;
+  const windDeg = weatherData.forecastData.windDegree;
+
+  const weatherDescription = getWeatherDesc(weatherCode);
+  const weatherIconClass = getWeatherIcon(weatherCode);
+
+  resultDiv.style.display = 'grid';
+  const content = `
+    <div id="place-name">${placeName}</div>
+    <div id="current-temp">${currentTemp}<i class="wi wi-celsius"></i></div>
+    <div id="weather-desc">${weatherDescription}<i class="${weatherIconClass}"></i></div>
+    <div id="temp-feels-like">Feeling Temperature: ${tempFeelsLike} <i class="wi wi-celsius"></i></div>
+    <div id="wind-speed">${windSpeed} m/s</div>
+    <div id="wind-direction"><i class="wi wi-wind towards-0-deg" style="transform: rotate(${windDeg}deg)"></i></div>
+  `
+  resultDiv.innerHTML = content;
 }
 
 
